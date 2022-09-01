@@ -1,4 +1,5 @@
 var builder = WebApplication.CreateBuilder(args);
+var config = builder.Configuration;
 
 // Add services to the container.
 
@@ -6,8 +7,18 @@ builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
 
 // Database set
-builder.Services.Configure<DbSetMovies>(builder.Configuration.GetSection("MongoDbSettings:Movies"));
-builder.Services.Configure<DbSetTickets>(builder.Configuration.GetSection("MongoDbSettings:Tickets"));
+builder.Services.Configure<DbSetMovies>(cfg =>
+{
+    cfg.ConnectionString = config.GetSection("MongoDbSettings:ConnectionString").Value;
+    cfg.DatabaseName = config.GetSection("MongoDbSettings:DatabaseName").Value;
+    cfg.CollectionName = config.GetSection("MongoDbSettings:CollectionName:Movies").Value;
+});
+builder.Services.Configure<DbSetTickets>(cfg =>
+{
+    cfg.ConnectionString = config.GetSection("MongoDbSettings:ConnectionString").Value;
+    cfg.DatabaseName = config.GetSection("MongoDbSettings:DatabaseName").Value;
+    cfg.CollectionName = config.GetSection("MongoDbSettings:CollectionName:Tickets").Value;
+});
 
 // Services lifetime
 builder.Services.AddTransient<MovieService>();

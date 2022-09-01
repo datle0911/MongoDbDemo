@@ -2,7 +2,7 @@
 
 public enum ERoom
 {
-    Economic = 0,
-    threeD = 1,
-    SupperStar = 2
+    Economy = 0,
+    ThreeDimension = 1,
+    SuperStar = 2
 }
