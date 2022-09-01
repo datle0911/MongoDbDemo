@@ -6,7 +6,7 @@ var config = builder.Configuration;
 builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
 
-// Database set
+#region Database set
 builder.Services.Configure<DbSetMovies>(cfg =>
 {
     cfg.ConnectionString = config.GetSection("MongoDbSettings:ConnectionString").Value;
@@ -19,14 +19,15 @@ builder.Services.Configure<DbSetTickets>(cfg =>
     cfg.DatabaseName = config.GetSection("MongoDbSettings:DatabaseName").Value;
     cfg.CollectionName = config.GetSection("MongoDbSettings:CollectionName:Tickets").Value;
 });
+#endregion
 
 // Services lifetime
-builder.Services.AddTransient<MovieService>();
-builder.Services.AddTransient<TicketService>();
+builder.Services.AddScoped<MovieService>();
+builder.Services.AddScoped<TicketService>();
 
 // Repos lifetime
-builder.Services.AddTransient<MovieRepo>();
-builder.Services.AddTransient<TicketRepo>();
+builder.Services.AddScoped<MovieRepo>();
+builder.Services.AddScoped<TicketRepo>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
